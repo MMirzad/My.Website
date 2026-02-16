@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mahdi Mirzad | Portfolio</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-navy: #020a13;
+            --secondary-navy: #05162d;
+            --accent-blue: #4a90e2;
+            --ice-white: #f8fafc;
+            --text-dim: #94a3b8;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; } /* Cursor hidden to use custom one */
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--primary-navy);
+            color: var(--ice-white);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Custom Cursor */
+        #cursor {
+            position: fixed; width: 8px; height: 8px; background: var(--accent-blue);
+            border-radius: 50%; pointer-events: none; z-index: 10001; transition: transform 0.1s;
+        }
+        #cursor-follower {
+            position: fixed; width: 35px; height: 35px; border: 1px solid var(--accent-blue);
+            border-radius: 50%; pointer-events: none; z-index: 10000;
+            transition: transform 0.15s ease-out, background 0.3s;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+
+        /* Navigation */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            padding: 20px 0; background: rgba(2, 10, 19, 0.9);
+            backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border);
+        }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Space Grotesk'; font-weight: 700; font-size: 1.5rem; letter-spacing: 2px; color: #fff; text-decoration: none; }
+        .nav-links { display: flex; gap: 25px; }
+        .nav-links a { color: var(--text-dim); text-decoration: none; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; transition: var(--transition); }
+        .nav-links a:hover { color: var(--accent-blue); }
+
+        /* Hero */
+        .hero { min-height: 100vh; display: flex; align-items: center; padding-top: 80px; }
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+        .hero-title { font-size: clamp(3rem, 7vw, 6rem); font-weight: 800; line-height: 0.9; margin-bottom: 25px; }
+        .stroke-text { color: transparent; -webkit-text-stroke: 1.5px rgba(255,255,255,0.4); }
+        
+        .profile-frame {
+            width: 100%; max-width: 480px; aspect-ratio: 0.8; border-radius: 30px; 
+            overflow: hidden; border: 1px solid var(--glass-border); position: relative;
+        }
+        .profile-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Section Styling */
+        .section-title { font-size: 2.5rem; font-weight: 800; margin-bottom: 40px; position: relative; display: inline-block; }
+        .section-title::after { content: ''; position: absolute; bottom: -10px; left: 0; width: 60px; height: 4px; background: var(--accent-blue); }
+
+        .fancy-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 35px;
+            margin-bottom: 25px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .fancy-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; 
+            background: var(--accent-blue); opacity: 0; transition: var(--transition);
+        }
+        .fancy-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(10px);
+            border-color: rgba(74, 144, 226, 0.4);
+        }
+        .fancy-card:hover::before { opacity: 1; }
+
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
+        .date-tag { background: rgba(74, 144, 226, 0.1); color: var(--accent-blue); padding: 5px 15px; border-radius: 50px; font-size: 0.8rem; font-weight: 700; }
+
+        .tag-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+        .tag { background: var(--secondary-navy); border: 1px solid var(--glass-border); padding: 8px 18px; border-radius: 12px; font-size: 0.85rem; transition: 0.3s; }
+        .tag:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+
+        .bullet-list { list-style: none; }
+        .bullet-list li { margin-bottom: 10px; padding-left: 25px; position: relative; color: var(--text-dim); }
+        .bullet-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent-blue); font-weight: bold; }
+
+        /* Mega Footer */
+        .mega-footer {
+            background: var(--secondary-navy);
+            border-top: 1px solid var(--glass-border);
+            padding: 80px 0 30px 0;
+            margin-top: 100px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+        .footer-logo { font-family: 'Space Grotesk'; font-size: 2rem; font-weight: 800; color: #fff; margin-bottom: 20px; display: block; }
+        .footer-link { color: var(--text-dim); text-decoration: none; display: block; margin-bottom: 12px; transition: 0.3s; font-size: 0.9rem; }
+        .footer-link:hover { color: var(--accent-blue); padding-left: 5px; }
+        .social-circle {
+            width: 45px; height: 45px; border: 1px solid var(--glass-border);
+            display: inline-flex; align-items: center; justify-content: center;
+            border-radius: 50%; color: #fff; margin-right: 10px; transition: 0.3s;
+        }
+        .social-circle:hover { background: var(--accent-blue); border-color: var(--accent-blue); transform: translateY(-5px); }
+
+        @media (max-width: 968px) {
+            .hero-grid, .footer-grid { grid-template-columns: 1fr; }
+            .profile-frame { margin: 0 auto; }
+            * { cursor: auto !important; }
+            #cursor, #cursor-follower { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="cursor"></div>
+    <div id="cursor-follower"></div>
+
+    <nav>
+        <div class="container nav-content">
+            <a href="#" class="logo">M. MIRZAD</a>
+            <div class="nav-links">
+                <a href="#experience">Experience</a>
+                <a href="#research">Research</a>
+                <a href="#education">Education</a>
+                <a href="#skills">Skills</a>
+                <a href="#awards">Awards</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container hero-grid">
+            <div data-aos="fade-right">
+                <h1 class="hero-title">MAHDI<br><span class="stroke-text">MIRZAD</span></h1>
+                <p style="color: var(--text-dim); font-size: 1.2rem; margin-bottom: 30px; max-width: 500px;">
+                    Senior Software Developer & MBA Strategist focused on engineering systems and AI optimization.
+                </p>
+                <div style="display: flex; gap: 15px;">
+                    <a href="cv.pdf" download style="background: #fff; color: #000; padding: 15px 30px; border-radius: 12px; text-decoration: none; font-weight: 800; font-size: 0.8rem;">DOWNLOAD CV</a>
+                    <a href="mailto:mirzad.mahdi@gmail.com" style="border: 1px solid #fff; color: #fff; padding: 15px 30px; border-radius: 12px; text-decoration: none; font-weight: 800; font-size: 0.8rem;">GET IN TOUCH</a>
+                </div>
+            </div>
+            <div class="profile-frame" data-aos="fade-left">
+                <img src="profile.png" alt="Mahdi Mirzad">
+            </div>
+        </div>
+    </header>
+
+    <section id="education" class="container">
+        <h2 class="section-title" data-aos="fade-up">Education</h2>
+        <div class="fancy-card" data-aos="fade-up">
+            <div class="card-header">
+                <div>
+                    <h3>M.Sc. Business Administration (MBA)</h3>
+                    <p style="color: var(--accent-blue);">Small Businesses</p>
+                </div>
+                <span class="date-tag">2020 – 2022</span>
+            </div>
+            <p>Faculty of Management, Islamic Azad University, Science and Research Branch, Tehran</p>
+        </div>
+        <div class="fancy-card" data-aos="fade-up">
+            <div class="card-header"><h3>B.Sc. Chemical Engineering</h3><span class="date-tag">2014 – 2019</span></div>
+            <p>Faculty of Engineering, University of Tehran</p>
+        </div>
+        <div class="fancy-card" data-aos="fade-up">
+            <div class="card-header"><h3>Diploma in Mathematics and Physics</h3><span class="date-tag">2010 – 2014</span></div>
+            <p>SAMPAD Shaheed Haghani High School for Gifted Students</p>
+        </div>
+    </section>
+
+    <section id="research" class="container">
+        <h2 class="section-title" data-aos="fade-up">Publications & Research</h2>
+        <div class="fancy-card" data-aos="fade-up" style="border-right: 1px solid var(--accent-blue);">
+            <span style="color: var(--accent-blue); font-weight: 800; font-size: 0.7rem;">[PUBLISHED]</span>
+            <p style="margin-top: 10px;">N. Shojaei, M. Mirzad, H. Rostami, et al, <strong>"Deep Learning Automated Differential Diagnosis of Pharyngitis using Smartphone Camera,"</strong> Proceedings of the 1st International Biennial Conference of Artificial Intelligence and Data Science (AIDSAI), Bushehr, Iran, 2024. [DOI].</p>
+        </div>
+    </section>
+
+    <section id="experience" class="container">
+        <h2 class="section-title" data-aos="fade-up">Experience</h2>
+        <div class="fancy-card" data-aos="fade-up">
+            <div class="card-header">
+                <div><h3>Freelance Software Developer</h3><p style="color: var(--text-dim);">Self-Employed</p></div>
+                <span class="date-tag">2018 – Present</span>
+            </div>
+            <ul class="bullet-list">
+                <li>Developed web-based applications using React and modern JavaScript frameworks</li>
+                <li>Implemented data processing and analysis solutions using Python and MATLAB</li>
+                <li>Designed and optimized engineering simulations using Aspen HYSYS and Aspen Plus</li>
+                <li>Built automation scripts and problem-solving tools tailored to client needs</li>
+                <li>Collaborated with clients to gather requirements and deliver customized technical solutions</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="skills" class="container">
+        <h2 class="section-title" data-aos="fade-up">Skills</h2>
+        <div class="fancy-card" data-aos="fade-up">
+            <h4 style="margin-bottom: 15px;"><i class="fas fa-code" style="margin-right: 10px; color: var(--accent-blue);"></i> Programming & Development</h4>
+            <div class="tag-container">
+                <span class="tag">C++</span><span class="tag">Python</span><span class="tag">MATLAB</span><span class="tag">React</span>
+            </div>
+        </div>
+        <div class="fancy-card" data-aos="fade-up">
+            <h4 style="margin-bottom: 15px;"><i class="fas fa-microchip" style="margin-right: 10px; color: var(--accent-blue);"></i> Engineering & Simulation</h4>
+            <div class="tag-container">
+                <span class="tag">Aspen HYSYS</span><span class="tag">Aspen Plus</span><span class="tag">AutoCAD</span><span class="tag">Minitab</span>
+            </div>
+        </div>
+        <div class="fancy-card" data-aos="fade-up">
+            <h4 style="margin-bottom: 15px;"><i class="fas fa-paint-brush" style="margin-right: 10px; color: var(--accent-blue);"></i> Creative Media</h4>
+            <div class="tag-container">
+                <span class="tag">Adobe Premiere</span><span class="tag">Photoshop</span><span class="tag">After Effects</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="languages" class="container">
+        <h2 class="section-title" data-aos="fade-up">Languages</h2>
+        <div class="fancy-card" data-aos="fade-up">
+            <p><strong>English:</strong> Proficient</p>
+            <p><strong>Persian:</strong> Native</p>
+        </div>
+    </section>
+
+    <section id="awards" class="container">
+        <h2 class="section-title" data-aos="fade-up">Awards</h2>
+        <div class="fancy-card" data-aos="fade-up">
+            <ul class="bullet-list">
+                <li>Ranked 625 in National University Entrance Exam (Region 2)</li>
+                <li>Certificate in Aspen HYSYS & Plus Workshops (University of Tehran)</li>
+                <li>Certificate in Photoshop Workshop (University of Tehran)</li>
+                <li>National Chemistry & Mathematics Olympiad (First Stage Pass)</li>
+            </ul>
+        </div>
+    </section>
+
+    <footer class="mega-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <span class="footer-logo">M. MIRZAD</span>
+                    <p style="color: var(--text-dim); max-width: 300px; margin-bottom: 25px;">
+                        Engineering the future through code, strategy, and chemical simulation expertise.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-circle"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-circle"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-circle"><i class="fab fa-google-scholar"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 20px;">Quick Links</h4>
+                    <a href="#experience" class="footer-link">Experience</a>
+                    <a href="#research" class="footer-link">Research</a>
+                    <a href="#education" class="footer-link">Education</a>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 20px;">Contact Info</h4>
+                    <p class="footer-link">mirzad.mahdi@gmail.com</p>
+                    <p class="footer-link">+98 933 720 3000 </p>
+                    <p class="footer-link">Tehran, Iran</p>
+                </div>
+            </div>
+            <div style="border-top: 1px solid var(--glass-border); padding-top: 25px; text-align: center; color: rgba(255,255,255,0.2); font-size: 0.75rem; letter-spacing: 2px;">
+                © 2026 MAHDI MIRZAD | DESIGNED WITH PRECISION
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+
+        // Custom Cursor Logic
+        const cursor = document.getElementById('cursor');
+        const follower = document.getElementById('cursor-follower');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            setTimeout(() => {
+                follower.style.left = e.clientX - 14 + 'px';
+                follower.style.top = e.clientY - 14 + 'px';
+            }, 50);
+        });
+
+        document.querySelectorAll('a, .fancy-card, .tag').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                follower.style.transform = 'scale(2)';
+                follower.style.background = 'rgba(74, 144, 226, 0.1)';
+            });
+            el.addEventListener('mouseleave', () => {
+                follower.style.transform = 'scale(1)';
+                follower.style.background = 'transparent';
+            });
+        });
+    </script>
+</body>
+</html>
